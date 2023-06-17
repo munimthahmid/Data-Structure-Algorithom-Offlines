@@ -28,8 +28,9 @@ vector<pair<int,int>> PrimsAlgo(vector<vector<pair<int,double>>> &graph,double &
     vector<double> weight(v, INT_MAX);
     vector<int> parent(v, -1);
     vector<bool>inMST(v,false);
-    pq.push({0,0});
+    pq.push({0,1});
     weight[0]=0;
+    weight[1]=0;
     vector<pair<int,int>>edges;
     while(!pq.empty())
     {
@@ -71,20 +72,17 @@ vector<pair<int,int>> PrimsAlgo(vector<vector<pair<int,double>>> &graph,double &
 
 int main()
 {
-     ifstream in;
-     ofstream out;
-     in.open("input.txt");
-     out.open("prims.txt");
+
     int n,m;
-    in>>n>>m;
-    vector<vector<pair<int, double>>> graph(n, vector<pair<int, double>>());
+    cin>>n>>m;
+    vector<vector<pair<int, double>>> graph(n+1, vector<pair<int, double>>());
 
     vector<edge>v;
     for(int i=0; i<m; i++)
     {
         int v1,v2;
         double w;
-        in>>v1>>v2>>w;
+        cin>>v1>>v2>>w;
         if(v1!=v2)
         {
             edge x(v1,v2,w);
@@ -104,16 +102,13 @@ int main()
     }
     double finalweight=0;
     vector<pair<int,int>>edges=PrimsAlgo(graph,finalweight);
-    out<<"Prim-Jarnik Algorithm: "<<endl;
-    out<<"Total weight: "<<finalweight<<endl;
-    out<<"Root Node " <<0<<endl;
+    cout<<"Prim-Jarnik Algorithm: "<<endl;
+    cout<<finalweight<<endl;
     for(int i=0; i<edges.size(); i++)
     {
-        out<<edges[i].first<<" "<<edges[i].second<<endl;
+        cout<<edges[i].first<<" "<<edges[i].second<<endl;
     }
-      in.close();
-      out.close();
-
+      
 
 
 

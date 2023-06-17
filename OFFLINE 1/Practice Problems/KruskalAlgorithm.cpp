@@ -3,24 +3,24 @@
 #include <set>
 #include <bits/stdc++.h>
 using namespace std;
-const int N=1e5;
+const int N=1e6+10;
 vector<int>parent(N);
 vector<int>Size(N);
 multiset<int>sizes;
-
+vector<int>weights;
+typedef long long int ll;
 void make(int v)
 {
     parent[v]=v;
     Size[v]=1;
-    sizes.insert(1);
 }
-int find(int v)
+int find(ll v)
 {
     if(v==parent[v]) return v;
     return parent[v]=find(parent[v]);
 
 }
-void Union(int a,int b)
+void Union(ll a,ll b)
 {
     a=find(a);
     b=find(b);
@@ -38,18 +38,19 @@ void Union(int a,int b)
         sizes.insert(Size[a]);
     }
 }
-vector<pair<int,int>> KruskalAlgorithm(vector<pair<int,pair<int,int>>>&graph,int &weight)
+vector<pair<ll,ll>> KruskalAlgorithm(vector<pair<ll,pair<ll,ll>>>&graph,ll &weight)
 {
     sort(graph.begin(),graph.end());
-    vector<pair<int,int>>edges;
+    vector<pair<ll,ll>>edges;
     for(int i=0; i<graph.size(); i++)
     {
-        int w=graph[i].first;
-        int u=graph[i].second.first;
-        int v=graph[i].second.second;
+        ll w=graph[i].first;
+        ll u=graph[i].second.first;
+        ll v=graph[i].second.second;
         if(find(u)==find(v)) continue;
         Union(u,v);
         weight+=w;
+        weights.push_back(w);
         edges.push_back({u,v});
 
     }
@@ -58,27 +59,44 @@ vector<pair<int,int>> KruskalAlgorithm(vector<pair<int,pair<int,int>>>&graph,int
 int main()
 {
    
-    int n,m;
-    cin>>n>>m;
-    vector<pair<int,pair<int,int>>>graph;
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vector<pair<ll,pair<ll,ll>>>graph;
 
-    for(int i=1; i<=n; i++)
+    for(ll i=1; i<=n; i++)
     {
         make(i);
     }
     for(int i=0; i<m; i++)
     {
-        int u,v,w;
+        ll u,v,w;
         cin>>u>>v>>w;
         graph.push_back({w,{u,v}});
     }
-    int finalWeight=0;
-    vector<pair<int,int>>edges=KruskalAlgorithm(graph,finalWeight);
-    cout<<finalWeight<<endl;
-    for(int i=0; i<edges.size(); i++)
+    ll finalWeight=0;
+    vector<pair<ll,ll>>edges=KruskalAlgorithm(graph,finalWeight);
+    if(k<weights.size()) cout<<-1<<endl;
+    else
     {
-        cout<<edges[i].first<<" "<<edges[i].second<<endl;
+        sort(weights.begin(),weights.end(),greater<ll>());
+    ll curtotal=accumulate(weights.begin(),weights.end(),0LL);
+    ll counter=0;
+    for(ll i=0;i<weights.size();i++)
+    {
+        if(curtotal>k)
+        {
+            counter++;
+            curtotal-=weights[i];
+            curtotal+=1;
+    cout<<"curtotal: "<<curtotal<<endl;
+
+        }
+        else break;
     }
+    if(curtotal>k) cout<<-1<<endl;
+    else cout<<counter<<endl;
+    }
+    
     
 
 
