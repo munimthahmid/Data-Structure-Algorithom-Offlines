@@ -27,15 +27,9 @@ void Union(int a,int b)
 
     if(a!=b)
     {
-        auto it=sizes.find(Size[a]);
-        if(it!=sizes.end()) sizes.erase(it);
-        //
-        auto it2=sizes.find(Size[b]);
-        if(it2!=sizes.end()) sizes.erase(it2);
         if(Size[a]<Size[b]) swap(a,b);
         parent[b]=a;
         Size[a]+=Size[b];
-        sizes.insert(Size[a]);
     }
 }
 vector<pair<int,int>> KruskalAlgorithm(vector<pair<int,pair<int,int>>>&graph,int &weight)
