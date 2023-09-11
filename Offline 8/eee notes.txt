@@ -1,0 +1,5 @@
+1. Why sc test on HV side?
+
+
+2. why oc on lv side?
+ The open circuit test is always performed on the low-voltage side of the transformer. Because, if it is performed on the high voltage side, the no-load current I0 would be inconveniently small and the applied voltage would be inconveniently large.
